@@ -10,7 +10,7 @@
 	<groupId>com.example</groupId>
 	<artifactId>shopweb</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demolab5</name>
+	<name>ktck</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
