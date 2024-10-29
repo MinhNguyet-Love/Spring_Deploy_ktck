@@ -1,12 +1,13 @@
 package com.example.shopweb.controller;
 
 import com.example.shopweb.model.Product;
+import com.example.shopweb.repository.ProductRepository;
 import com.example.shopweb.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Controller
@@ -17,7 +18,15 @@ public class ProductController {
 
     public ProductController() {
     }
-
+    @Autowired
+    private ProductRepository repo;
+    //    LAY DU LIEU Tu myphpadmin
+    @GetMapping( "/shop")
+    public String ShowProductList(Model model) {
+        List<Product> products = repo.findAll();//Sort.by(Sort.Direction.DESC, "id")
+        model.addAttribute("products", products);
+        return "shop";
+    }
     // GET ALL PRODUCTS
     @GetMapping("/products")
     @ResponseBody
@@ -68,5 +77,20 @@ public class ProductController {
     public List<Product> removeProductById(@PathVariable("id") int productId) {
         productService.delete((long) productId);
         return productService.findAll();
+    }
+
+    @GetMapping("/")
+    public String showShopPage() {
+        return "index"; // Trả về file index.html
+    }
+
+    @GetMapping("/cart")
+    public String showCartPage() {
+        return "cart";
+    }
+
+    @GetMapping("/login")
+    public String showloginPage() {
+        return "login";
     }
 }
