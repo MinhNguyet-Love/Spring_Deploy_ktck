@@ -79,6 +79,12 @@ public class ProductController {
         return productService.findAll();
     }
 
+    @GetMapping("/admin")
+    public String showadminPage() {
+        return "admin"; // Trả về file admin.html
+    }
+
+
     @GetMapping("/")
     public String showShopPage() {
         return "index"; // Trả về file index.html

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin E-Shopper</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    body {
+      padding-top: 50px;
+    }
+    .sidebar {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-right: 1px solid #dee2e6;
+    }
+    .main-content {
+      padding: 15px;
+    }
+    .header {
+      background-color: #007bff;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    .footer {
+      background-color: #343a40;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+    .nav-pills > li > a {
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <h2>Admin Dashboard</h2>
+</header>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 sidebar">
+      <h3>Navigation</h3>
+      <ul class="nav nav-pills nav-stacked">
+        <li><a href="/admin/dashboard">Dashboard</a></li>
+        <li><a href="/admin/products">Manage Products</a></li>
+        <li><a href="/admin/orders">Manage Orders</a></li>
+        <li><a href="/admin/categories">Manage Categories</a></li>
+        <li><a href="/admin/users">Manage Users</a></li>
+        <li><a href="/admin/settings">Settings</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </div>
+
+    <div class="col-sm-9 main-content">
+      <h3>Welcome to the Admin Dashboard</h3>
+      <p>Manage your products, orders, and more from here.</p>
+
+      <h4>Overview</h4>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">Total Products</div>
+            <div class="panel-body">
+              <h2>120</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">Total Orders</div>
+            <div class="panel-body">
+              <h2>65</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">Total Users</div>
+            <div class="panel-body">
+              <h2>300</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h4>Latest Orders</h4>
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>User</th>
+          <th>Status</th>
+          <th>Total</th>
+          <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>001</td>
+          <td>John Doe</td>
+          <td>Completed</td>
+          <td>$150.00</td>
+          <td>2024-10-31</td>
+        </tr>
+        <tr>
+          <td>002</td>
+          <td>Jane Smith</td>
+          <td>Pending</td>
+          <td>$85.00</td>
+          <td>2024-10-30</td>
+        </tr>
+        <tr>
+          <td>003</td>
+          <td>Bob Johnson</td>
+          <td>Cancelled</td>
+          <td>$45.00</td>
+          <td>2024-10-29</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>&copy; 2024 E-Shopper. All Rights Reserved.</p>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>
