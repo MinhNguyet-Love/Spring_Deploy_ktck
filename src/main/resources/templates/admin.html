@@ -2,139 +2,247 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin E-Shopper</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
     body {
-      padding-top: 50px;
+      background-color: #f3f4f6;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    .sidebar {
-      background-color: #f8f9fa;
-      padding: 15px;
-      border-right: 1px solid #dee2e6;
-    }
-    .main-content {
-      padding: 15px;
-    }
-    .header {
-      background-color: #007bff;
-      color: white;
-      padding: 15px;
+    h1 {
+      color: #343a40;
+      margin-bottom: 20px;
       text-align: center;
     }
-    .footer {
-      background-color: #343a40;
-      color: white;
-      padding: 15px;
-      text-align: center;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
+    .table {
+      background-color: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
     }
-    .nav-pills > li > a {
-      color: #007bff;
+    .table th {
+      background-color: orangered;
+      color: white;
+      text-align: center;
+    }
+    .table tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+    .modal-content {
+      border-radius: 10px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+    }
+    .image-preview {
+      max-width: 100px;
+      height: auto;
+      margin-top: 10px;
+      display: none;
+    }
+    .action-buttons .btn {
+      margin-right: 5px;
+    }
+    .btn-info, .btn-danger, .btn-primary, .btn-success {
+      transition: background-color 0.3s;
+    }
+    .btn-info:hover {
+      background-color: #5bc0de;
+    }
+    .btn-danger:hover {
+      background-color: #d9534f;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+    .btn-success:hover {
+      background-color: #218838;
+    }
+    .modal-header {
+      background-color: crimson;
+      color: white;
+    }
+    .modal-footer {
+      display: flex;
+      justify-content: space-between;
     }
   </style>
 </head>
 <body>
+<div class="container mt-5">
+  <h1>Product Management</h1>
+  <div class="text-right mb-3">
+    <button class="btn btn-primary" onclick="openModal()"><i class="fas fa-plus-circle"></i> Add Product</button>
+  </div>
+  <table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Image</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody id="productList"></tbody>
+  </table>
 
-<header class="header">
-  <h2>Admin Dashboard</h2>
-</header>
-
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-3 sidebar">
-      <h3>Navigation</h3>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="/admin/dashboard">Dashboard</a></li>
-        <li><a href="/admin/products">Manage Products</a></li>
-        <li><a href="/admin/orders">Manage Orders</a></li>
-        <li><a href="/admin/categories">Manage Categories</a></li>
-        <li><a href="/admin/users">Manage Users</a></li>
-        <li><a href="/admin/settings">Settings</a></li>
-        <li><a href="/logout">Logout</a></li>
-      </ul>
-    </div>
-
-    <div class="col-sm-9 main-content">
-      <h3>Welcome to the Admin Dashboard</h3>
-      <p>Manage your products, orders, and more from here.</p>
-
-      <h4>Overview</h4>
-      <div class="row">
-        <div class="col-sm-4">
-          <div class="panel panel-default">
-            <div class="panel-heading">Total Products</div>
-            <div class="panel-body">
-              <h2>120</h2>
-            </div>
-          </div>
+  <!-- Modal for adding/editing product -->
+  <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle">Add Product</h5>
+          <button type="button" class="close" onclick="closeModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-        <div class="col-sm-4">
-          <div class="panel panel-default">
-            <div class="panel-heading">Total Orders</div>
-            <div class="panel-body">
-              <h2>65</h2>
+        <div class="modal-body">
+          <form id="productForm">
+            <input type="hidden" id="productId" />
+            <div class="form-group">
+              <input type="text" class="form-control" id="productName" placeholder="Product Name" required />
             </div>
-          </div>
+            <div class="form-group">
+              <input type="text" class="form-control" id="productDescription" placeholder="Description" required />
+            </div>
+            <div class="form-group">
+              <input type="number" class="form-control" id="productPrice" placeholder="Price" required />
+            </div>
+            <div class="form-group">
+              <input type="file" class="form-control" id="productImageFile" onchange="previewImage(event)" />
+              <img id="imagePreview" class="image-preview" src="" alt="Image Preview" />
+            </div>
+          </form>
         </div>
-        <div class="col-sm-4">
-          <div class="panel panel-default">
-            <div class="panel-heading">Total Users</div>
-            <div class="panel-body">
-              <h2>300</h2>
-            </div>
-          </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success" onclick="submitForm()"><i class="fas fa-save"></i> Save Product</button>
+          <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
         </div>
       </div>
-
-      <h4>Latest Orders</h4>
-      <table class="table table-bordered">
-        <thead>
-        <tr>
-          <th>Order ID</th>
-          <th>User</th>
-          <th>Status</th>
-          <th>Total</th>
-          <th>Date</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>001</td>
-          <td>John Doe</td>
-          <td>Completed</td>
-          <td>$150.00</td>
-          <td>2024-10-31</td>
-        </tr>
-        <tr>
-          <td>002</td>
-          <td>Jane Smith</td>
-          <td>Pending</td>
-          <td>$85.00</td>
-          <td>2024-10-30</td>
-        </tr>
-        <tr>
-          <td>003</td>
-          <td>Bob Johnson</td>
-          <td>Cancelled</td>
-          <td>$45.00</td>
-          <td>2024-10-29</td>
-        </tr>
-        </tbody>
-      </table>
     </div>
   </div>
 </div>
 
-<footer class="footer">
-  <p>&copy; 2024 E-Shopper. All Rights Reserved.</p>
-</footer>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  const productForm = document.getElementById('productForm');
+  const productList = document.getElementById('productList');
+  const imagePreview = document.getElementById('imagePreview');
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  // Function to fetch products and display them
+  async function fetchProducts() {
+    try {
+      const response = await fetch('/products');
+      if (!response.ok) throw new Error('Network response was not ok');
+      const products = await response.json();
+      productList.innerHTML = products.map(product => `
+        <tr>
+          <td>${product.productId}</td>
+          <td>${product.productName}</td>
+          <td>${product.description}</td>
+          <td>${product.price}</td>
+          <td><img src="${product.imageUrl}" alt="${product.productName}" class="image-preview" /></td>
+          <td class="action-buttons">
+            <button class="btn btn-info btn-sm" onclick="openModal(${product.productId})"><i class="fas fa-edit"></i> Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.productId})"><i class="fas fa-trash"></i> Delete</button>
+          </td>
+        </tr>
+      `).join('');
+    } catch (error) {
+      console.error('Failed to fetch products:', error);
+      alert('Error fetching products');
+    }
+  }
+
+  // Function to preview image before uploading
+  function previewImage(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      imagePreview.src = e.target.result;
+      imagePreview.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Function to handle form submission
+  async function submitForm() {
+    const productId = document.getElementById('productId').value;
+    const method = productId ? 'PUT' : 'POST';
+    const url = productId ? `/products/${productId}` : '/products';
+
+    const formData = new FormData();
+    formData.append('product', JSON.stringify({
+      productName: document.getElementById('productName').value,
+      description: document.getElementById('productDescription').value,
+      price: parseFloat(document.getElementById('productPrice').value)
+    }));
+
+    const imageFile = document.getElementById('productImageFile').files[0];
+    if (imageFile) {
+      formData.append('imageFile', imageFile);
+    }
+
+    try {
+      const response = await fetch(url, {
+        method,
+        body: formData
+      });
+      if (!response.ok) throw new Error('Network response was not ok');
+      alert(`Product ${productId ? 'updated' : 'created'} successfully!`);
+      closeModal();
+      fetchProducts();
+    } catch (error) {
+      alert('Error saving product: ' + error.message);
+    }
+  }
+
+  // Function to delete product
+  async function deleteProduct(productId) {
+    if (confirm("Are you sure you want to delete this product?")) {
+      await fetch(`/products/${productId}`, { method: 'DELETE' });
+      fetchProducts();
+    }
+  }
+
+  // Function to open modal for adding/updating products
+  function openModal(productId = null) {
+    if (productId) {
+      fetch(`/products/${productId}`)
+              .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+              })
+              .then(product => {
+                document.getElementById('productId').value = product.productId;
+                document.getElementById('productName').value = product.productName;
+                document.getElementById('productDescription').value = product.description;
+                document.getElementById('productPrice').value = product.price; // Đảm bảo giá được lấy đúng
+                imagePreview.src = product.imageUrl;
+                imagePreview.style.display = 'block';
+                document.getElementById('modalTitle').textContent = 'Edit Product';
+              })
+              .catch(error => alert('Error fetching product: ' + error.message));
+    } else {
+      productForm.reset();
+      imagePreview.style.display = 'none';
+      document.getElementById('modalTitle').textContent = 'Add Product';
+    }
+    $('#productModal').modal('show');
+  }
+
+  // Function to close modal
+  function closeModal() {
+    $('#productModal').modal('hide');
+  }
+
+  // Fetch products on page load
+  window.onload = fetchProducts;
+</script>
 </body>
 </html>

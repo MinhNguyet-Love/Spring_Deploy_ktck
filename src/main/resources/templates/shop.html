@@ -16,7 +16,7 @@
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
-    <![endif]-->       
+    <![endif]-->
     <link rel="shortcut icon" href="images/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
@@ -51,7 +51,7 @@
 				</div>
 			</div>
 		</div><!--/header_top-->
-		
+
 		<div class="header-middle"><!--header-middle-->
 			<div class="container">
 				<div class="row">
@@ -70,7 +70,7 @@
 									<li><a href="">UK</a></li>
 								</ul>
 							</div>
-							
+
 							<div class="btn-group">
 								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
 									DOLLAR
@@ -97,7 +97,7 @@
 				</div>
 			</div>
 		</div><!--/header-middle-->
-	
+
 		<div class="header-bottom"><!--header-bottom-->
 			<div class="container">
 				<div class="row">
@@ -116,18 +116,18 @@
 								<li class="dropdown"><a href="#" class="active">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="/shop" class="active">Products</a></li>
-										<li><a href="">Product Details</a></li>
+										<li><a href="/product-details">Product Details</a></li>
 										<li><a href="">Checkout</a></li>
 										<li><a href="/cart">Cart</a></li>
 										<li><a href="/login">Login</a></li>
                                     </ul>
-                                </li> 
+                                </li>
 								<li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="">Blog List</a></li>
 										<li><a href="">Blog Single</a></li>
                                     </ul>
-                                </li> 
+                                </li>
 								<li><a href="">404</a></li>
 								<li><a href="">Contact</a></li>
 							</ul>
@@ -142,13 +142,13 @@
 				</div>
 			</div>
 	</header>
-	
+
 	<section id="advertisement">
 		<div class="container">
 			<img src="images/shop/advertisement.jpg" alt="" />
 		</div>
 	</section>
-	
+
 	<section>
 		<div class="container">
 			<div class="row">
@@ -303,6 +303,7 @@
 											<img th:src="@{'/images/' + ${product.imageUrl}}" alt="Product Image" />
 											<h2 th:text="'$' + ${product.price}"></h2>
 											<p th:text="${product.productName}"></p>
+
 											<a href="/cart" class="btn btn-default add-to-cart">
 												<i class="fa fa-shopping-cart"></i>Add to cart
 											</a>
@@ -333,7 +334,7 @@
 			</div>
 		</div>
 	</section>
-	
+
 	<footer id="footer"><!--Footer-->
 		<div class="footer-top">
 			<div class="container">
@@ -359,7 +360,7 @@
 								<h2>24 DEC 2014</h2>
 							</div>
 						</div>
-						
+
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
 								<a href="#">
@@ -374,7 +375,7 @@
 								<h2>24 DEC 2014</h2>
 							</div>
 						</div>
-						
+
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
 								<a href="#">
@@ -389,7 +390,7 @@
 								<h2>24 DEC 2014</h2>
 							</div>
 						</div>
-						
+
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
 								<a href="#">
@@ -414,7 +415,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="footer-widget">
 			<div class="container">
 				<div class="row">
@@ -476,11 +477,11 @@
 							</form>
 						</div>
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="footer-bottom">
 			<div class="container">
 				<div class="row">
@@ -489,11 +490,11 @@
 				</div>
 			</div>
 		</div>
-		
-	</footer><!--/Footer-->
-	
 
-  
+	</footer><!--/Footer-->
+
+
+
     <script src="js/jquery.js"></script>
 	<script src="js/price-range.js"></script>
     <script src="js/jquery.scrollUp.min.js"></script>
