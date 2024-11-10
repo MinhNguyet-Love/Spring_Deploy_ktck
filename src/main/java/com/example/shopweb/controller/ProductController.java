@@ -122,11 +122,11 @@ public class ProductController {
         return filePath; // Return saved image path
     }
 
-    // Show shop page
-    @GetMapping("/")
-    public String showShopPage() {
-        return "index"; // Return file index.html
-    }
+//    // Show shop page
+//    @GetMapping("/")
+//    public String showShopPage() {
+//        return "index"; // Return file index.html
+//    }
 
     @GetMapping("/product-details")
     public String showLoginPage() {
