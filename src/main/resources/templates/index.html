@@ -373,15 +373,12 @@
 										<div class="productinfo text-center">
 											<!-- Hiển thị ảnh -->
 											<img th:src="@{'/images/' + ${feature.imageUrl}}" alt="Product Image" />
-
-
-											<h2 th:text="${feature.price}"></h2> <!-- Hiển thị giá -->
+											<h2 th:text="'$' + ${feature.price}"></h2> <!-- Hiển thị giá -->
 											<p th:text="${feature.featureName}"></p> <!-- Hiển thị tên tính năng -->
 											<a href="/cart" class="btn btn-default add-to-cart">
 												<i class="fa fa-shopping-cart"></i>Add to cart
 											</a>
 										</div>
-
 										<!-- Thêm lựa chọn dưới mỗi sản phẩm -->
 										<div class="choose">
 											<ul class="nav nav-pills nav-justified">
@@ -394,154 +391,95 @@
 							</div>
 						</div>
 					</div><!-- /features_items -->
-				</div>
+					<script>
+						// Sample Cart Data
+						let cart = [];
 
+						// Function to update the cart table and totals
+						function updateCart() {
+							const cartItemsBody = document.getElementById("cart-items-body");
+							const cartSubtotal = document.getElementById("cart-subtotal");
+							const cartTotal = document.getElementById("cart-total");
 
-				<!--&lt;!&ndash;										<div class="product-overlay">&ndash;&gt;-->
-<!--&lt;!&ndash;											<div class="overlay-content">&ndash;&gt;-->
-<!--&lt;!&ndash;												<h2>$56</h2>&ndash;&gt;-->
-<!--&lt;!&ndash;												<p>Easy Polo Black Edition</p>&ndash;&gt;-->
-<!--&lt;!&ndash;												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>&ndash;&gt;-->
-<!--&lt;!&ndash;											</div>&ndash;&gt;-->
-<!--&lt;!&ndash;										</div>&ndash;&gt;-->
-<!--								</div>-->
-<!--								<div class="choose">-->
-<!--									<ul class="nav nav-pills nav-justified">-->
-<!--										<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>-->
-<!--										<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>-->
-<!--									</ul>-->
-<!--								</div>-->
-<!--							</div>-->
-<!--						</div>-->
-<!--						<div class="col-sm-4">-->
-<!--							<div class="product-image-wrapper">-->
-<!--								<div class="single-products">-->
-<!--									<div class="productinfo text-center">-->
-<!--										<img src="images/home/product2.jpg" alt="" />-->
-<!--										<h2>$56</h2>-->
-<!--										<p>Easy Polo Black Edition</p>-->
-<!--										<a href="/cart" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>-->
-<!--									</div>-->
-<!--&lt;!&ndash;									<div class="product-overlay">&ndash;&gt;-->
-<!--&lt;!&ndash;										<div class="overlay-content">&ndash;&gt;-->
-<!--&lt;!&ndash;											<h2>$56</h2>&ndash;&gt;-->
-<!--&lt;!&ndash;											<p>Easy Polo Black Edition</p>&ndash;&gt;-->
-<!--&lt;!&ndash;											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>&ndash;&gt;-->
-<!--&lt;!&ndash;										</div>&ndash;&gt;-->
-<!--&lt;!&ndash;									</div>&ndash;&gt;-->
-<!--								</div>-->
-<!--								<div class="choose">-->
-<!--									<ul class="nav nav-pills nav-justified">-->
-<!--										<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>-->
-<!--										<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>-->
-<!--									</ul>-->
-<!--								</div>-->
-<!--							</div>-->
-<!--						</div>-->
-<!--						<div class="col-sm-4">-->
-<!--							<div class="product-image-wrapper">-->
-<!--								<div class="single-products">-->
-<!--									<div class="productinfo text-center">-->
-<!--										<img src="images/home/product3.jpg" alt="" />-->
-<!--										<h2>$56</h2>-->
-<!--										<p>Easy Polo Black Edition</p>-->
-<!--										<a href="/cart" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>-->
-<!--									</div>-->
-<!--&lt;!&ndash;									<div class="product-overlay">&ndash;&gt;-->
-<!--&lt;!&ndash;										<div class="overlay-content">&ndash;&gt;-->
-<!--&lt;!&ndash;											<h2>$56</h2>&ndash;&gt;-->
-<!--&lt;!&ndash;											<p>Easy Polo Black Edition</p>&ndash;&gt;-->
-<!--&lt;!&ndash;											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>&ndash;&gt;-->
-<!--&lt;!&ndash;										</div>&ndash;&gt;-->
-<!--&lt;!&ndash;									</div>&ndash;&gt;-->
-<!--								</div>-->
-<!--								<div class="choose">-->
-<!--									<ul class="nav nav-pills nav-justified">-->
-<!--										<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>-->
-<!--										<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>-->
-<!--									</ul>-->
-<!--								</div>-->
-<!--							</div>-->
-<!--						</div>-->
-<!--						<div class="col-sm-4">-->
-<!--							<div class="product-image-wrapper">-->
-<!--								<div class="single-products">-->
-<!--									<div class="productinfo text-center">-->
-<!--										<img src="images/home/product4.jpg" alt="" />-->
-<!--										<h2>$56</h2>-->
-<!--										<p>Easy Polo Black Edition</p>-->
-<!--										<a href="/cart" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>-->
-<!--									</div>-->
-<!--&lt;!&ndash;									<div class="product-overlay">&ndash;&gt;-->
-<!--&lt;!&ndash;										<div class="overlay-content">&ndash;&gt;-->
-<!--&lt;!&ndash;											<h2>$56</h2>&ndash;&gt;-->
-<!--&lt;!&ndash;											<p>Easy Polo Black Edition</p>&ndash;&gt;-->
-<!--&lt;!&ndash;											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>&ndash;&gt;-->
-<!--&lt;!&ndash;										</div>&ndash;&gt;-->
-<!--&lt;!&ndash;									</div>&ndash;&gt;-->
-<!--									<img src="images/home/new.png" class="new" alt="" />-->
-<!--								</div>-->
-<!--								<div class="choose">-->
-<!--									<ul class="nav nav-pills nav-justified">-->
-<!--										<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>-->
-<!--										<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>-->
-<!--									</ul>-->
-<!--								</div>-->
-<!--							</div>-->
-<!--						</div>-->
-<!--						<div class="col-sm-4">-->
-<!--							<div class="product-image-wrapper">-->
-<!--								<div class="single-products">-->
-<!--									<div class="productinfo text-center">-->
-<!--										<img src="images/home/product5.jpg" alt="" />-->
-<!--										<h2>$56</h2>-->
-<!--										<p>Easy Polo Black Edition</p>-->
-<!--										<a href="/cart" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>-->
-<!--									</div>-->
-<!--&lt;!&ndash;									<div class="product-overlay">&ndash;&gt;-->
-<!--&lt;!&ndash;										<div class="overlay-content">&ndash;&gt;-->
-<!--&lt;!&ndash;											<h2>$56</h2>&ndash;&gt;-->
-<!--&lt;!&ndash;											<p>Easy Polo Black Edition</p>&ndash;&gt;-->
-<!--&lt;!&ndash;											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>&ndash;&gt;-->
-<!--&lt;!&ndash;										</div>&ndash;&gt;-->
-<!--&lt;!&ndash;									</div>&ndash;&gt;-->
-<!--									<img src="images/home/sale.png" class="new" alt="" />-->
-<!--								</div>-->
-<!--								<div class="choose">-->
-<!--									<ul class="nav nav-pills nav-justified">-->
-<!--										<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>-->
-<!--										<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>-->
-<!--									</ul>-->
-<!--								</div>-->
-<!--							</div>-->
-<!--						</div>-->
-<!--						<div class="col-sm-4">-->
-<!--							<div class="product-image-wrapper">-->
-<!--								<div class="single-products">-->
-<!--									<div class="productinfo text-center">-->
-<!--										<img src="images/home/product6.jpg" alt="" />-->
-<!--										<h2>$56</h2>-->
-<!--										<p>Easy Polo Black Edition</p>-->
-<!--										<a href="/cart" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>-->
-<!--									</div>-->
-<!--									<div class="product-overlay">-->
-<!--										<div class="overlay-content">-->
-<!--											<h2>$56</h2>-->
-<!--											<p>Easy Polo Black Edition</p>-->
-<!--											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>-->
-<!--										</div>-->
-<!--									</div>-->
-<!--								</div>-->
-<!--								<div class="choose">-->
-<!--									<ul class="nav nav-pills nav-justified">-->
-<!--										<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>-->
-<!--										<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>-->
-<!--									</ul>-->
-<!--								</div>-->
-<!--							</div>-->
-<!--						</div>-->
+							// Empty the cart table first
+							cartItemsBody.innerHTML = '';
 
-<!--					</div>&lt;!&ndash;features_items&ndash;&gt;-->
+							let total = 0;
+
+							// Populate cart table rows
+							cart.forEach(item => {
+								total += item.price * item.quantity;
+
+								const row = document.createElement('tr');
+								row.innerHTML = `
+                <td class="cart_product">
+                    <a href=""><img src="${item.image}" alt="${item.name}"></a>
+                </td>
+                <td class="cart_description">
+                    <h4><a href="">${item.name}</a></h4>
+                    <p>Web ID: ${item.id}</p>
+                </td>
+                <td class="cart_price">
+                    <p>$${item.price}</p>
+                </td>
+                <td class="cart_quantity">
+                    <div class="cart_quantity_button">
+                        <button class="cart_quantity_up" onclick="updateQuantity(${item.id}, 1)"> + </button>
+                        <input class="cart_quantity_input" type="text" name="quantity" value="${item.quantity}" autocomplete="off" size="2">
+                        <button class="cart_quantity_down" onclick="updateQuantity(${item.id}, -1)"> - </button>
+                    </div>
+                </td>
+                <td class="cart_total">
+                    <p class="cart_total_price">$${item.price * item.quantity}</p>
+                </td>
+                <td class="cart_delete">
+                    <button class="cart_quantity_delete" onclick="removeItem(${item.id})"><i class="fa fa-times"></i></button>
+                </td>
+            `;
+								cartItemsBody.appendChild(row);
+							});
+
+							// Update totals
+							cartSubtotal.innerText = `$${total}`;
+							cartTotal.innerText = `$${total + 2}`;  // Including eco tax
+						}
+
+						// Function to add item to the cart
+						function addToCart(id, name, price, image) {
+							const existingItem = cart.find(item => item.id === id);
+							if (existingItem) {
+								existingItem.quantity += 1;
+							} else {
+								cart.push({
+									id: id,
+									name: name,
+									price: parseFloat(price),
+									quantity: 1,
+									image: image
+								});
+							}
+							updateCart();
+						}
+
+						// Function to update the quantity of a cart item
+						function updateQuantity(id, delta) {
+							const item = cart.find(item => item.id === id);
+							if (item) {
+								item.quantity += delta;
+								if (item.quantity < 1) item.quantity = 1; // Prevent negative or zero quantity
+								updateCart();
+							}
+						}
+
+						// Function to remove a cart item
+						function removeItem(id) {
+							const index = cart.findIndex(item => item.id === id);
+							if (index !== -1) {
+								cart.splice(index, 1);
+								updateCart();
+							}
+						}
+					</script>
 
 					<div class="category-tab"><!--category-tab-->
 						<div class="col-sm-12">
@@ -564,7 +502,7 @@
 												<p>Easy Polo Black Edition</p>
 												<a href="/cart" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 											</div>
-											
+
 										</div>
 									</div>
 								</div>
@@ -577,7 +515,7 @@
 												<p>Easy Polo Black Edition</p>
 												<a href="/cart" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 											</div>
-											
+
 										</div>
 									</div>
 								</div>
@@ -830,104 +768,30 @@
 							</div>
 						</div>
 					</div><!--/category-tab-->
-					
-					<div class="recommended_items"><!--recommended_items-->
-						<h2 class="title text-center">recommended items</h2>
-						
-						<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
-							<div class="carousel-inner">
-								<div class="item active">	
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend1.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="/cart" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-												</div>
-												
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend2.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="/cart" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-												</div>
-												
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend3.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="/cart" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-												</div>
-												
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="item">	
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend1.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="/cart" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-												</div>
-												
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend2.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="/cart" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-												</div>
-												
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend3.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="/cart" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-												</div>
-												
+
+					<div class="col-sm-9 padding-right">
+						<div class="features_items"><!-- features_items -->
+							<h2 class="title text-center">Recommends Item</h2>
+							<div class="row">
+								<!-- Loop through the products -->
+								<div class="col-sm-4 " th:each="recommend : ${recommends}">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfo text-center">
+												<!-- Display image -->
+												<img th:src="@{'/images/' + ${recommend.imageUrl}}" alt="Product Image" />
+												<h2 th:text="'$'+ ${recommend.price}"></h2> <!-- Display price -->
+												<p th:text="${recommend.recommendName}"></p> <!-- Display name -->
+												<a href="/cart" class="btn btn-default add-to-cart">
+													<i class="fa fa-shopping-cart"></i> Add to cart
+												</a>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							 <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
-								<i class="fa fa-angle-left"></i>
-							  </a>
-							  <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
-								<i class="fa fa-angle-right"></i>
-							  </a>			
 						</div>
-					</div><!--/recommended_items-->
-					
+					</div>
 				</div>
 			</div>
 		</div>
@@ -955,7 +819,7 @@
 									</div>
 								</a>
 								<p>Circle of Hands</p>
-								<h2>24 DEC 2014</h2>
+								<h2>12 OCT 2024</h2>
 							</div>
 						</div>
 
@@ -970,7 +834,7 @@
 									</div>
 								</a>
 								<p>Circle of Hands</p>
-								<h2>24 DEC 2014</h2>
+								<h2>12 OCT 2024</h2>
 							</div>
 						</div>
 
@@ -985,7 +849,7 @@
 									</div>
 								</a>
 								<p>Circle of Hands</p>
-								<h2>24 DEC 2014</h2>
+								<h2>12 OCT 2024</h2>
 							</div>
 						</div>
 						
@@ -1000,7 +864,7 @@
 									</div>
 								</a>
 								<p>Circle of Hands</p>
-								<h2>24 DEC 2014</h2>
+								<h2>12 OCT 2024</h2>
 							</div>
 						</div>
 					</div>
