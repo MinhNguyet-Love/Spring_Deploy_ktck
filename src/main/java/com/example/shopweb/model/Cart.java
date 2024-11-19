@@ -1,54 +1,42 @@
 package com.example.shopweb.model;
 
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "cart_items")
-public class CartItem {
+@Table(name = "cart")
+public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "cart_id", nullable = false)
-    private com.example.shopweb.model.Cart cart; // This links to the Cart entity (user's cart)
-
-    @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
-    private Product product; // This links to the Product entity
+    private Product product;
 
     private int quantity;
 
     private BigDecimal totalPrice;
 
-    // Constructor, Getters, Setters, etc.
+    // Default constructor
+    public Cart() {
+    }
 
-    public CartItem() {}
-
-    public CartItem(com.example.shopweb.model.Cart cart, Product product, int quantity) {
-        this.cart = cart;
+    // Constructor with Product and quantity
+    public Cart(Product product, int quantity) {
         this.product = product;
         this.quantity = quantity;
         this.totalPrice = product.getPrice().multiply(BigDecimal.valueOf(quantity));
     }
 
+    // Getter & Setter methods
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public com.example.shopweb.model.Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(com.example.shopweb.model.Cart cart) {
-        this.cart = cart;
     }
 
     public Product getProduct() {
