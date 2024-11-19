@@ -117,8 +117,8 @@
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="/shop" class="active">Products</a></li>
 										<li><a href="/product-details">Product Details</a></li>
-										<li><a href="/checkout">Checkout</a></li>
-										<li><a href="/cart">Cart</a></li>
+										<li><a href="">Checkout</a></li>
+										<li><a href="/cart/view">Cart</a></li>
 										<li><a href="/login">Login</a></li>
                                     </ul>
                                 </li>
@@ -304,15 +304,20 @@
 											<h2 th:text="'$' + ${product.price}"></h2>
 											<p th:text="${product.productName}"></p>
 
-											<a href="/cart" class="btn btn-default add-to-cart">
-												<i class="fa fa-shopping-cart"></i>Add to cart
-											</a>
+											<!-- Form to add the product to the cart -->
+											<form action="/cart/add" method="post">
+												<input type="hidden" name="productId" th:value="${product.productId}" />
+												<input type="number" name="quantity" value="1" min="1" />
+												<button type="submit" class="btn btn-default add-to-cart">
+													<i class="fa fa-shopping-cart"></i> Add to cart
+												</button>
+											</form>
 										</div>
 									</div>
 									<div class="choose">
 										<ul class="nav nav-pills nav-justified">
-											<li><a href=""><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
-											<li><a href=""><i class="fa fa-plus-square"></i>Add to compare</a></li>
+											<li><a href=""><i class="fa fa-plus-square"></i> Add to wishlist</a></li>
+											<li><a href=""><i class="fa fa-plus-square"></i> Add to compare</a></li>
 										</ul>
 									</div>
 								</div>
@@ -320,6 +325,7 @@
 						</div><!-- End of row -->
 					</div><!--/features_items-->
 				</div>
+
 			</div>
 		</div>
 

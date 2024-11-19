@@ -1,28 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Cart | E-Shopper</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/prettyPhoto.css" rel="stylesheet">
-    <link href="css/price-range.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
-	<link href="css/main.css" rel="stylesheet">
-	<link href="css/responsive.css" rel="stylesheet">
-    <!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
-    <![endif]-->
-    <link rel="shortcut icon" href="images/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
-</head><!--/head-->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>Cart | E-Shopper</title>
+
+	<!-- Correct path to CSS files with Thymeleaf -->
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+	<link th:href="@{/css/prettyPhoto.css}" rel="stylesheet">
+	<link th:href="@{/css/price-range.css}" rel="stylesheet">
+	<link th:href="@{/css/animate.css}" rel="stylesheet">
+	<link th:href="@{/css/main.css}" rel="stylesheet">
+	<link th:href="@{/css/responsive.css}" rel="stylesheet">
+
+	<!-- Correct path to images -->
+	<link rel="shortcut icon" href="images/ico/favicon.ico">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+</head>
+
 <body>
 	<header id="header"><!--header-->
 		<div class="header_top"><!--header_top-->
@@ -162,59 +161,47 @@
 						<td></td>
 					</tr>
 					</thead>
-					<tbody id="cart_body">
-					<!-- Cart items will be dynamically injected here -->
+					<tbody>
+					<!-- Loop through cart items -->
+					<tr th:each="item : ${cart}">
+						<td class="cart_product">
+							<a href=""><img th:src="@{'/images/' + ${item.product.imageUrl}}" alt="Product Image"></a>
+						</td>
+						<td class="cart_description">
+							<h4><a href="#" th:text="${item.product.productName}"></a></h4>
+							<p th:text="'Web ID: ' + ${item.product.productId}"></p>
+						</td>
+						<td class="cart_price">
+							<p th:text="'$' + ${item.product.price}"></p>
+						</td>
+						<td class="cart_quantity">
+							<div class="cart_quantity_button">
+								<!-- Quantity Up -->
+								<a class="cart_quantity_up" th:href="@{'/cart/update?cartItemId=' + ${item.id} + '&quantity=' + (${item.quantity} + 1)}">+</a>
+								<!-- Quantity Input -->
+								<input class="cart_quantity_input" type="text" th:value="${item.quantity}" readonly autocomplete="off" size="2">
+								<!-- Quantity Down -->
+								<a class="cart_quantity_down" th:href="@{'/cart/update?cartItemId=' + ${item.id} + '&quantity=' + (${item.quantity} - 1)}">-</a>
+							</div>
+						</td>
+						<td class="cart_total">
+							<p class="cart_total_price" th:text="'$' + ${item.totalPrice}"></p>
+						</td>
+						<td class="cart_delete">
+							<a class="cart_quantity_delete" th:href="@{'/cart/remove?cartItemId=' + ${item.id}}"><i class="fa fa-times"></i></a>
+						</td>
+					</tr>
 					</tbody>
 				</table>
-				<div class="text-right">
-					<h3 id="grand_total">Total: $0</h3>
-					<button id="checkout_button" class="btn btn-primary">Proceed to Checkout</button>
-				</div>
+			</div>
+
+			<div class="cart_navigation">
+				<a href="/shop" class="btn btn-default continue btn-lg">Continue Shopping</a>
+				<a href="/checkout" class="btn btn-primary checkout btn-lg">Proceed to Checkout</a>
 			</div>
 		</div>
 	</section>
-
-	<script>
-		// Initialize cart
-		let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-		// Function to add item to cart
-		function addToCart(productId, productName, price, imageUrl) {
-			// Check if the product is already in the cart
-			const existingItem = cart.find(item => item.productId === productId);
-
-			if (existingItem) {
-				// If item exists, increase quantity
-				existingItem.quantity += 1;
-			} else {
-				// If item doesn't exist, add a new item to the cart
-				const newItem = {
-					productId: productId,
-					productName: productName,
-					price: price,
-					image: imageUrl,
-					quantity: 1
-				};
-				cart.push(newItem);
-			}
-
-			// Save the updated cart to local storage
-			localStorage.setItem('cart', JSON.stringify(cart));
-
-			alert(`${productName} has been added to the cart.`);
-		}
-
-		// Handler function for the "Add to Cart" link
-		function addToCartHandler(event, productId, productName, price, imageUrl) {
-			// Prevent the default behavior of the link (prevent navigation)
-			event.preventDefault();
-
-			// Call addToCart function
-			addToCart(productId, productName, price, imageUrl);
-		}
-	</script>
-
-
+	<!--/#cart_items-->
 
 	<section id="do_action">
 		<div class="container">
