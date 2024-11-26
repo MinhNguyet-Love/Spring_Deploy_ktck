@@ -18,26 +18,25 @@ public class CartController {
     @PostMapping("/add")
     public String addToCart(@RequestParam Long productId, @RequestParam int quantity, Model model) {
         cartService.addToCart(productId, quantity);
-        // Add cart to model
         model.addAttribute("cart", cartService.getCartItems());
         return "redirect:/cart/view"; // Redirect to view cart page
     }
 
     @GetMapping("/view")
     public String viewCart(Model model) {
-        // Add cart to model
         model.addAttribute("cart", cartService.getCartItems());
         return "cart"; // Return the cart view
     }
 
     @PostMapping("/update")
-    public String updateCartItem(@RequestParam Long cartItemId, @RequestParam int quantity) {
+    public String updateCartItem(@RequestParam Long cartItemId, @RequestParam int quantity, Model model) {
         cartService.updateCartItem(cartItemId, quantity);
         return "redirect:/cart/view"; // Redirect to view cart page
     }
 
+    // Xóa sản phẩm khỏi giỏ hàng
     @PostMapping("/remove")
-    public String removeFromCart(@RequestParam Long cartItemId) {
+    public String removeFromCart(@RequestParam Long cartItemId, Model model) {
         cartService.removeFromCart(cartItemId);
         return "redirect:/cart/view"; // Redirect to view cart page
     }

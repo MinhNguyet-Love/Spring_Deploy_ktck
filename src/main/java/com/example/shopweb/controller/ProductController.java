@@ -142,10 +142,18 @@ public class ProductController {
         return "cart";
     }
 
-    @GetMapping("/login")
-    public String showProductPage() {
-        return "login";
+    @GetMapping("/checkout")
+    public String showcheckoutPage() {
+        return "checkout";
     }
+
+
+
+//    @GetMapping("/login")
+//    public String showProductPage() {
+//        return "login";
+//    }
+//
 
     // Parse product data from JSON
     private Product parseProductData(String productData) {
