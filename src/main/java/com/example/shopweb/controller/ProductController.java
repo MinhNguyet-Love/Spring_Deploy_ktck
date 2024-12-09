@@ -133,8 +133,13 @@ public class ProductController {
 
 
     @GetMapping("/product-details")
-    public String showLoginPage() {
+    public String showProductdetailPage() {
         return "product-details";
+    }
+
+    @GetMapping("/contact-us")
+    public String showContactUsPage() {
+        return "contact-us"; // Trả về file contact-us.html
     }
 
     @GetMapping("/cart")

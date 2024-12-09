@@ -4,6 +4,7 @@ import com.example.shopweb.dto.UserDto;
 import com.example.shopweb.model.User;
 import com.example.shopweb.service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,9 +24,21 @@ public class AuthController {
     }
 
     @GetMapping("index")
-    public String home(){
+    public String home(Model model) {
+        String username = "anonymousUser"; // Default value
+        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+            username = SecurityContextHolder.getContext().getAuthentication().getName();
+        }
+        if (!username.equals("anonymousUser")) {
+            model.addAttribute("greeting", "Xin chào, " + username);
+            model.addAttribute("isLoggedIn", true); // User is logged in
+        } else {
+            model.addAttribute("isLoggedIn", false); // User is not logged in
+        }
         return "index";
     }
+
+
 
     @GetMapping("/login")
     public String loginForm() {

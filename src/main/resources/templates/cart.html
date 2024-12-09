@@ -31,7 +31,7 @@
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
 								<li><a href=""><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
-								<li><a href=""><i class="fa fa-envelope"></i> info@domain.com</a></li>
+								<li><a href=""><i class="fa fa-envelope"></i> minhnguyet22072004@gmail.com</a></li>
 							</ul>
 						</div>
 					</div>
@@ -84,9 +84,8 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href=""><i class="fa fa-user"></i> Account</a></li>
+								<li><a href="/contact-us"><i class="fa fa-user"></i> Account</a></li>
 								<li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
-								<li><a href="/chectout"><i class="fa fa-crosshairs"></i> Checkout</a></li>
 								<li><a href="/cart" class="active"><i class="fa fa-shopping-cart"></i> Cart</a></li>
 								<li><a href="/login"><i class="fa fa-lock"></i> Login</a></li>
 							</ul>
@@ -115,8 +114,8 @@
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="/shop">Products</a></li>
 										<li><a href="">Product Details</a></li>
-										<li><a href="/checkout">Checkout</a></li>
-										<li><a href="/cart" class="active">Cart</a></li>
+
+										<li><a href="/cart/view" class="active">Cart</a></li>
 										<li><a href="/login">Login</a></li>
                                     </ul>
                                 </li>
@@ -141,70 +140,112 @@
 		</div><!--/header-bottom-->
 	</header><!--/header-->
 
-	<section id="cart_items">
-		<div class="container">
-			<div class="breadcrumbs">
-				<ol class="breadcrumb">
-					<li><a href="/">Home</a></li>
-					<li class="active">Shopping Cart</li>
-				</ol>
-			</div>
-			<div class="table-responsive cart_info">
-				<table class="table table-condensed">
-					<thead>
-					<tr class="cart_menu">
-						<td class="image">Item</td>
-						<td class="description"></td>
-						<td class="price">Price</td>
-						<td class="quantity">Quantity</td>
-						<td class="total">Total</td>
-						<td></td>
-					</tr>
-					</thead>
-					<tbody>
-					<!-- Loop through cart items -->
-					<tr th:each="item : ${cart}">
-						<td class="cart_product">
-							<a href=""><img th:src="@{'/images/' + ${item.product.imageUrl}}" alt="Product Image"></a>
-						</td>
-						<td class="cart_description">
-							<h4><a href="#" th:text="${item.product.productName}"></a></h4>
-							<p th:text="'Web ID: ' + ${item.product.productId}"></p>
-						</td>
-						<td class="cart_price">
-							<p th:text="'$' + ${item.product.price}"></p>
-						</td>
-						<td class="cart_quantity">
-							<form action="/cart/update" method="post">
-								<input type="hidden" name="cartItemId" th:value="${item.id}">
-								<input class="cart_quantity_input" type="text" name="quantity" th:value="${item.quantity}" autocomplete="off" size="2">
-								<button type="submit" class="btn btn-default">Update</button>
-							</form>
-						</td>
-						<td class="cart_total">
-							<p class="cart_total_price" th:text="'$' + ${item.totalPrice}"></p>
-						</td>
-						<td class="cart_delete">
-							<form action="/cart/remove" method="post">
-								<input type="hidden" name="cartItemId" th:value="${item.id}">
-								<button type="submit" class="cart_quantity_delete">
-									<i class="fa fa-times"></i>
-								</button>
-							</form>
-						</td>
-					</tr>
-					</tbody>
-				</table>
-			</div>
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Giỏ Hàng</title>
+		<style>
+			/* Giới hạn kích thước hình ảnh */
+			.cart_product img {
+				max-width: 100px;  /* Giới hạn chiều rộng tối đa của ảnh */
+				height: auto;      /* Đảm bảo tỷ lệ ảnh không bị biến dạng */
+			}
 
-			<div class="cart_navigation">
-				<a href="/shop" class="btn btn-default continue btn-lg">Continue Shopping</a>
-				<a href="/checkout" class="btn btn-primary checkout btn-lg">Proceed to Checkout</a>
+			/* Màu cam cho nút thanh toán */
+			.btn-orange {
+				background-color: #FF7F00; /* Màu cam */
+				color: white;
+				border: none;
+			}
+
+			.btn-orange:hover {
+				background-color: #FF6600; /* Màu cam đậm khi hover */
+			}
+
+			/* Màu cam cho giá sản phẩm */
+			.cart_price p {
+				color: #FF7F00;  /* Màu cam */
+				font-weight: bold; /* Làm đậm giá */
+			}
+		</style>
+	</head>
+	<body>
+	<div class="container">
+		<div class="breadcrumbs">
+			<ol class="breadcrumb">
+				<li><a href="/">Home</a></li>
+				<li class="active">Shopping Cart</li>
+			</ol>
+		</div>
+
+		<!-- Hiển thị thông báo thanh toán thành công -->
+		<div th:if="${message != null}">
+			<div class="alert alert-success">
+				<p th:text="${message}"></p>
 			</div>
 		</div>
-	</section>
-	<!--/#cart_items-->
 
+		<!-- Giỏ hàng -->
+		<div class="table-responsive cart_info">
+			<table class="table table-condensed">
+				<thead>
+				<tr class="cart_menu">
+					<td class="image">Item</td>
+					<td class="description"></td>
+					<td class="price">Price</td>
+					<td class="quantity">Quantity</td>
+					<td class="total">Total</td>
+					<td></td>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="item : ${cart}">
+					<td class="cart_product">
+						<a href=""><img th:src="@{'/images/' + ${item.product.imageUrl}}" alt="Product Image"></a>
+					</td>
+					<td class="cart_description">
+						<h4><a href="#" th:text="${item.product.productName}"></a></h4>
+						<p th:text="'Web ID: ' + ${item.product.productId}"></p>
+					</td>
+					<td class="cart_price">
+						<p th:text="'$' + ${item.product.price}"></p>
+					</td>
+					<td class="cart_quantity">
+						<form action="/cart/update" method="post">
+							<input type="hidden" name="cartItemId" th:value="${item.id}">
+							<input class="cart_quantity_input" type="text" name="quantity" th:value="${item.quantity}" autocomplete="off" size="2">
+							<button type="submit" class="btn btn-default">Update</button>
+						</form>
+					</td>
+					<td class="cart_total">
+						<p class="cart_total_price" th:text="'$' + ${item.totalPrice}"></p>
+					</td>
+					<td class="cart_delete">
+						<form action="/cart/remove" method="post">
+							<input type="hidden" name="cartItemId" th:value="${item.id}">
+							<button type="submit" class="cart_quantity_delete">
+								<i class="fa fa-times"></i>
+							</button>
+						</form>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="cart_navigation">
+			<a href="/shop" class="btn btn-default continue btn-lg">Continue Shopping</a>
+
+			<!-- Nút thanh toán với màu cam -->
+			<form action="/cart/pay" method="post">
+				<button type="submit" class="btn btn-orange checkout btn-lg">Thanh Toán</button>
+			</form>
+		</div>
+	</div>
+	</body>
+	</html>
 
 	<section id="do_action">
 		<div class="container">
