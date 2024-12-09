@@ -88,7 +88,7 @@
 							<ul class="nav navbar-nav">
 								<li><a href="#"><i class="fa fa-user"></i> Account</a></li>
 								<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
-								<li><a href=""><i class="fa fa-crosshairs"></i> Checkout</a></li>
+								<li><a href="/checkout"><i class="fa fa-crosshairs"></i> Checkout</a></li>
 								<li><a href="/cart"><i class="fa fa-shopping-cart"></i> Cart</a></li>
 								<li><a href="/login"><i class="fa fa-lock"></i> Login</a></li>
 							</ul>
@@ -117,7 +117,7 @@
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="/shop">Products</a></li>
 										<li><a href="">Product Details</a></li>
-										<li><a href="">Checkout</a></li>
+										<li><a href="/checkout">Checkout</a></li>
 										<li><a href="/cart">Cart</a></li>
 										<li><a href="/login">Login</a></li>
                                     </ul>
@@ -361,125 +361,34 @@
 					<!-- Thêm CSS của bạn -->
 				</head>
 				<body>
-
-				<div class="col-sm-9 padding-right">
-					<div class="features_items"><!-- features_items -->
-						<h2 class="title text-center">Features Items</h2>
-						<div class="row">
-							<!-- Duyệt qua các sản phẩm -->
-							<div class="col-sm-4" th:each="feature : ${features}">
-								<div class="product-image-wrapper">
-									<div class="single-products">
-										<div class="productinfo text-center">
-											<!-- Hiển thị ảnh -->
-											<img th:src="@{'/images/' + ${feature.imageUrl}}" alt="Product Image" />
-											<h2 th:text="'$' + ${feature.price}"></h2> <!-- Hiển thị giá -->
-											<p th:text="${feature.featureName}"></p> <!-- Hiển thị tên tính năng -->
-											<a href="/cart" class="btn btn-default add-to-cart">
-												<i class="fa fa-shopping-cart"></i>Add to cart
-											</a>
-										</div>
-										<!-- Thêm lựa chọn dưới mỗi sản phẩm -->
-										<div class="choose">
-											<ul class="nav nav-pills nav-justified">
-												<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
-												<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
-											</ul>
-										</div>
-									</div>
-								</div>
+				<div class="col-sm-4" th:each="feature : ${features}">
+					<div class="product-image-wrapper">
+						<div class="single-products">
+							<div class="productinfo text-center">
+								<!-- Hiển thị ảnh -->
+								<img th:src="@{'/images/' + ${feature.imageUrl}}" alt="Product Image" />
+								<h2 th:text="'$' + ${feature.price}"></h2> <!-- Hiển thị giá -->
+								<p th:text="${feature.featureName}"></p> <!-- Hiển thị tên tính năng -->
+								<!-- Form gửi yêu cầu POST để thêm vào giỏ hàng -->
+								<form action="/shop/addToCart" method="POST">
+									<input type="hidden" name="productId" th:value="${feature.id}" />
+									<input type="hidden" name="quantity" value="1" />
+									<button type="submit" class="btn btn-default add-to-cart">
+										<i class="fa fa-shopping-cart"></i> Add to cart
+									</button>
+								</form>
+							</div>
+							<!-- Thêm lựa chọn dưới mỗi sản phẩm -->
+							<div class="choose">
+								<ul class="nav nav-pills nav-justified">
+									<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+									<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+								</ul>
 							</div>
 						</div>
-					</div><!-- /features_items -->
-					<script>
-						// Sample Cart Data
-						let cart = [];
+					</div>
+				</div>
 
-						// Function to update the cart table and totals
-						function updateCart() {
-							const cartItemsBody = document.getElementById("cart-items-body");
-							const cartSubtotal = document.getElementById("cart-subtotal");
-							const cartTotal = document.getElementById("cart-total");
-
-							// Empty the cart table first
-							cartItemsBody.innerHTML = '';
-
-							let total = 0;
-
-							// Populate cart table rows
-							cart.forEach(item => {
-								total += item.price * item.quantity;
-
-								const row = document.createElement('tr');
-								row.innerHTML = `
-                <td class="cart_product">
-                    <a href=""><img src="${item.image}" alt="${item.name}"></a>
-                </td>
-                <td class="cart_description">
-                    <h4><a href="">${item.name}</a></h4>
-                    <p>Web ID: ${item.id}</p>
-                </td>
-                <td class="cart_price">
-                    <p>$${item.price}</p>
-                </td>
-                <td class="cart_quantity">
-                    <div class="cart_quantity_button">
-                        <button class="cart_quantity_up" onclick="updateQuantity(${item.id}, 1)"> + </button>
-                        <input class="cart_quantity_input" type="text" name="quantity" value="${item.quantity}" autocomplete="off" size="2">
-                        <button class="cart_quantity_down" onclick="updateQuantity(${item.id}, -1)"> - </button>
-                    </div>
-                </td>
-                <td class="cart_total">
-                    <p class="cart_total_price">$${item.price * item.quantity}</p>
-                </td>
-                <td class="cart_delete">
-                    <button class="cart_quantity_delete" onclick="removeItem(${item.id})"><i class="fa fa-times"></i></button>
-                </td>
-            `;
-								cartItemsBody.appendChild(row);
-							});
-
-							// Update totals
-							cartSubtotal.innerText = `$${total}`;
-							cartTotal.innerText = `$${total + 2}`;  // Including eco tax
-						}
-
-						// Function to add item to the cart
-						function addToCart(id, name, price, image) {
-							const existingItem = cart.find(item => item.id === id);
-							if (existingItem) {
-								existingItem.quantity += 1;
-							} else {
-								cart.push({
-									id: id,
-									name: name,
-									price: parseFloat(price),
-									quantity: 1,
-									image: image
-								});
-							}
-							updateCart();
-						}
-
-						// Function to update the quantity of a cart item
-						function updateQuantity(id, delta) {
-							const item = cart.find(item => item.id === id);
-							if (item) {
-								item.quantity += delta;
-								if (item.quantity < 1) item.quantity = 1; // Prevent negative or zero quantity
-								updateCart();
-							}
-						}
-
-						// Function to remove a cart item
-						function removeItem(id) {
-							const index = cart.findIndex(item => item.id === id);
-							if (index !== -1) {
-								cart.splice(index, 1);
-								updateCart();
-							}
-						}
-					</script>
 
 					<div class="category-tab"><!--category-tab-->
 						<div class="col-sm-12">

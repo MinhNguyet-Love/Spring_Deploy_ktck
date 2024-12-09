@@ -174,214 +174,47 @@
 		</div>
 	</section>
 
-	<!-- Checkout Success Modal -->
-	<div id="checkout_modal" class="modal">
-		<div class="modal-content">
-			<span class="close">&times;</span>
-			<h2>Payment Successful!</h2>
-			<p>Your order has been processed successfully. Thank you for shopping with us!</p>
-			<button onclick="closeModal()" class="btn btn-success">Close</button>
-		</div>
-	</div>
-
 	<script>
-		// Sample cart data
-		let cart = [
-			{ id: 1, name: "Colorblock Scuba", price: 59, quantity: 1, image: "images/cart/one.png" },
-			{ id: 2, name: "Colorblock Scuba", price: 59, quantity: 1, image: "images/cart/two.png" },
-			{ id: 3, name: "Colorblock Scuba", price: 59, quantity: 1, image: "images/cart/three.png" }
-		];
+		// Initialize cart
+		let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-		const cartBody = document.getElementById('cart_body');
-		const grandTotalElement = document.getElementById('grand_total');
-		const checkoutButton = document.getElementById('checkout_button');
-		const checkoutModal = document.getElementById('checkout_modal');
-		const closeModalButton = document.querySelector(".close");
+		// Function to add item to cart
+		function addToCart(productId, productName, price, imageUrl) {
+			// Check if the product is already in the cart
+			const existingItem = cart.find(item => item.productId === productId);
 
-		// Function to render cart items
-		function renderCart() {
-			cartBody.innerHTML = '';
-			let grandTotal = 0;
-
-			cart.forEach((item) => {
-				const itemTotal = item.price * item.quantity;
-				grandTotal += itemTotal;
-
-				cartBody.innerHTML += `
-            <tr>
-                <td class="cart_product">
-                    <a href="#"><img src="${item.image}" alt="item image"></a>
-                </td>
-                <td class="cart_description">
-                    <h4><a href="#">${item.name}</a></h4>
-                    <p>Web ID: ${item.id}</p>
-                </td>
-                <td class="cart_price"><p>$${item.price}</p></td>
-                <td class="cart_quantity">
-                    <div class="cart_quantity_button">
-                        <button class="cart_quantity_up" onclick="changeQuantity(${item.id}, 1)">+</button>
-                        <input class="cart_quantity_input" type="text" value="${item.quantity}" size="2" readonly>
-                        <button class="cart_quantity_down" onclick="changeQuantity(${item.id}, -1)">-</button>
-                    </div>
-                </td>
-                <td class="cart_total"><p class="cart_total_price">$${itemTotal}</p></td>
-                <td class="cart_delete"><button class="cart_quantity_delete" onclick="removeItem(${item.id})"><i class="fa fa-times"></i></button></td>
-            </tr>
-        `;
-			});
-
-			grandTotalElement.innerHTML = `Total: $${grandTotal.toFixed(2)}`;
-		}
-
-		// Function to change quantity of an item
-		function changeQuantity(itemId, change) {
-			const item = cart.find((i) => i.id === itemId);
-			if (item) {
-				item.quantity += change;
-				if (item.quantity < 1) item.quantity = 1;
+			if (existingItem) {
+				// If item exists, increase quantity
+				existingItem.quantity += 1;
+			} else {
+				// If item doesn't exist, add a new item to the cart
+				const newItem = {
+					productId: productId,
+					productName: productName,
+					price: price,
+					image: imageUrl,
+					quantity: 1
+				};
+				cart.push(newItem);
 			}
-			renderCart();
+
+			// Save the updated cart to local storage
+			localStorage.setItem('cart', JSON.stringify(cart));
+
+			alert(`${productName} has been added to the cart.`);
 		}
 
-		// Function to remove an item from the cart
-		function removeItem(itemId) {
-			cart = cart.filter((item) => item.id !== itemId);
-			renderCart();
+		// Handler function for the "Add to Cart" link
+		function addToCartHandler(event, productId, productName, price, imageUrl) {
+			// Prevent the default behavior of the link (prevent navigation)
+			event.preventDefault();
+
+			// Call addToCart function
+			addToCart(productId, productName, price, imageUrl);
 		}
-
-		// Function to proceed to checkout
-		checkoutButton.addEventListener('click', () => {
-			checkoutModal.style.display = "block";
-		});
-
-		// Function to close the modal
-		function closeModal() {
-			checkoutModal.style.display = "none";
-			cart = []; // Empty the cart after successful checkout
-			renderCart();
-		}
-
-		// Render the cart on page load
-		renderCart();
 	</script>
 
-	<!-- Add some basic styling for the modal and cart -->
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-		}
-		.container {
-			margin-top: 50px;
-		}
-		.cart_info table {
-			width: 100%;
-			margin-bottom: 20px;
-		}
-		.cart_menu td {
-			text-align: center;
-			font-weight: bold;
-			color: #333;
-		}
-		.cart_product img {
-			width: 50px;
-		}
-		.cart_quantity_button {
-			display: flex;
-			align-items: center;
-		}
-		.cart_quantity_button button {
-			background-color: #007bff;
-			color: #fff;
-			border: none;
-			padding: 5px 10px;
-			cursor: pointer;
-		}
-		.cart_quantity_button button:hover {
-			background-color: #0056b3;
-		}
-		.cart_quantity_input {
-			width: 40px;
-			text-align: center;
-			margin: 0 5px;
-			font-size: 16px;
-			border: 1px solid #ccc;
-		}
-		.cart_delete button {
-			background-color: #dc3545;
-			border: none;
-			padding: 5px 10px;
-			cursor: pointer;
-		}
-		.cart_delete button:hover {
-			background-color: #c82333;
-		}
-		#checkout_button {
-			background-color: #28a745;
-			color: white;
-			border: none;
-			padding: 10px 20px;
-			font-size: 16px;
-			cursor: pointer;
-		}
-		#checkout_button:hover {
-			background-color: #218838;
-		}
 
-		.modal {
-			display: none;
-			position: fixed;
-			z-index: 1;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			background-color: rgba(0, 0, 0, 0.5);
-			overflow: auto;
-			padding-top: 50px;
-		}
-
-		.modal-content {
-			background-color: #fff;
-			margin: 5% auto;
-			padding: 20px;
-			border-radius: 10px;
-			width: 50%;
-			text-align: center;
-		}
-
-		.modal-content h2 {
-			color: #28a745;
-			margin-bottom: 20px;
-		}
-
-		.modal-content button {
-			background-color: #28a745;
-			color: white;
-			border: none;
-			padding: 10px 20px;
-			cursor: pointer;
-			border-radius: 5px;
-			font-size: 16px;
-		}
-
-		.modal-content button:hover {
-			background-color: #218838;
-		}
-
-		.close {
-			color: #aaa;
-			float: right;
-			font-size: 28px;
-			font-weight: bold;
-		}
-
-		.close:hover,
-		.close:focus {
-			color: black;
-			text-decoration: none;
-			cursor: pointer;
-		}
-	</style>
 
 	<section id="do_action">
 		<div class="container">

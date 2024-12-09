@@ -29,6 +29,8 @@ public class ProductController {
     // Image storage path
     private final String IMAGE_PATH = "D:\\Nam3\\Web1\\shopweb\\public\\images\\";
 
+
+
     // Show product list on the shop page
     @GetMapping("/shop")
     public String showProductList(Model model) {
@@ -127,6 +129,8 @@ public class ProductController {
 //    public String showShopPage() {
 //        return "index"; // Return file index.html
 //    }
+
+
 
     @GetMapping("/product-details")
     public String showLoginPage() {
