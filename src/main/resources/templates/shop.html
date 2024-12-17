@@ -90,7 +90,7 @@
 
 								<li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
 								<li><a href="/checkout"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-								<li><a href="/cart"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href="/cart/view"><i class="fa fa-shopping-cart"></i> Cart</a></li>
 								<li><a href="/login"><i class="fa fa-lock"></i> Login</a></li>
 							</ul>
 						</div>
@@ -306,7 +306,7 @@
 											<p th:text="${product.productName}"></p>
 
 											<!-- Form to add the product to the cart -->
-											<form action="/cart/add" method="post">
+											<form class="add-to-cart-form" action="/cart/add" method="post">
 												<input type="hidden" name="productId" th:value="${product.productId}" />
 												<input type="number" name="quantity" value="1" min="1" />
 												<button type="submit" class="btn btn-default add-to-cart">
@@ -323,6 +323,7 @@
 									</div>
 								</div>
 							</div>
+
 						</div><!-- End of row -->
 					</div><!--/features_items-->
 				</div>
@@ -500,7 +501,36 @@
 
 	</footer><!--/Footer-->
 
+	<!-- Include jQuery -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+	<script>
+		// When the form is submitted
+		$(".add-to-cart-form").submit(function(e) {
+			e.preventDefault();  // Prevent the form from submitting normally
+
+			var form = $(this);  // Get the form that was submitted
+
+			// Send the form data via AJAX
+			$.ajax({
+				url: form.attr("action"),  // The URL to send the data to
+				type: form.attr("method"), // POST request method
+				data: form.serialize(),    // Serialize the form data (productId and quantity)
+				success: function(response) {
+					// Handle success
+					alert("Product added to cart!");
+
+					// Optionally, update the cart item count or cart UI dynamically
+					// Example: If you have a cart icon or count somewhere, update it
+					$('#cart-count').text(response.cartItemCount);  // Update the cart count element (if it exists)
+				},
+				error: function() {
+					// Handle error
+					alert("There was an error adding the product to the cart. Please try again.");
+				}
+			});
+		});
+	</script>
 
     <script src="js/jquery.js"></script>
 	<script src="js/price-range.js"></script>
